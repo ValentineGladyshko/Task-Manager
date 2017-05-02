@@ -1,6 +1,6 @@
 #include "MyForm.h"
 
-void Kursach::MyForm::hide()
+void TaskManager::MyForm::hide()
 {
 	Name1->Visible = false;
 	Name2->Visible = false;
@@ -14,7 +14,7 @@ void Kursach::MyForm::hide()
 	Text2->Visible = false;
 }
 
-void Kursach::MyForm::visible()
+void TaskManager::MyForm::visible()
 {
 	Name1->Visible = true;
 	Name2->Visible = true;
@@ -28,7 +28,7 @@ void Kursach::MyForm::visible()
 	Text2->Visible = true;
 }
 
-bool Kursach::MyForm::WantDelete()
+bool TaskManager::MyForm::WantDelete()
 {
 	Deletef^ form = gcnew Deletef;
 	form->ShowDialog();

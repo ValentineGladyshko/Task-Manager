@@ -22,9 +22,9 @@
     <ProjectGuid>{E8760A1B-37F0-488B-BD1D-9F10C4BA9411}</ProjectGuid>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>Task Manager</RootNamespace>
+    <RootNamespace>TaskManager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>Task Manager</ProjectName>
+    <ProjectName>TaskManager</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,6 +140,9 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="UpdatingTask.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MyString.h" />
     <ClInclude Include="My_List.h" />
     <ClInclude Include="Obj.h" />
@@ -156,6 +159,7 @@
     <ClCompile Include="My_List.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="UpdatingTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -165,8 +169,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddingNewTask.resx">
+      <DependentUpon>AddingNewTask.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Deletef.resx">
+      <DependentUpon>Deletef.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdatingTask.resx">
+      <DependentUpon>UpdatingTask.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

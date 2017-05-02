@@ -1,11 +1,12 @@
 #pragma once
 #include "AddingNewTask.h"
+#include "UpdatingTask.h"
 #include "Deletef.h"
 #include "My_List.h"
 #include <locale.h>
 
 
-namespace Kursach {
+namespace TaskManager {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -67,6 +68,7 @@ namespace Kursach {
 	private: System::Windows::Forms::ToolStripMenuItem^  SortByDeadline;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Name3;
 	private: System::Windows::Forms::ToolStripButton^  DeleteTask;
+	private: System::Windows::Forms::ToolStripButton^  UpdateTask;
 
 
 
@@ -92,6 +94,7 @@ namespace Kursach {
 			this->ToolPanel = (gcnew System::Windows::Forms::ToolStrip());
 			this->AddNewTask = (gcnew System::Windows::Forms::ToolStripButton());
 			this->DeleteTask = (gcnew System::Windows::Forms::ToolStripButton());
+			this->UpdateTask = (gcnew System::Windows::Forms::ToolStripButton());
 			this->ShowIntineTask = (gcnew System::Windows::Forms::ToolStripButton());
 			this->ShowOuttimeTask = (gcnew System::Windows::Forms::ToolStripButton());
 			this->ShowAll = (gcnew System::Windows::Forms::ToolStripButton());
@@ -117,9 +120,9 @@ namespace Kursach {
 			// 
 			// ToolPanel
 			// 
-			this->ToolPanel->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {
+			this->ToolPanel->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {
 				this->AddNewTask, this->DeleteTask,
-					this->ShowIntineTask, this->ShowOuttimeTask, this->ShowAll, this->Sorting
+					this->UpdateTask, this->ShowIntineTask, this->ShowOuttimeTask, this->ShowAll, this->Sorting
 			});
 			this->ToolPanel->Location = System::Drawing::Point(0, 0);
 			this->ToolPanel->Name = L"ToolPanel";
@@ -144,6 +147,15 @@ namespace Kursach {
 			this->DeleteTask->Size = System::Drawing::Size(117, 22);
 			this->DeleteTask->Text = L"Видалити Завдання";
 			this->DeleteTask->Click += gcnew System::EventHandler(this, &MyForm::DeleteTaskClick);
+			// 
+			// UpdateTask
+			// 
+			this->UpdateTask->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+			this->UpdateTask->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->UpdateTask->Name = L"UpdateTask";
+			this->UpdateTask->Size = System::Drawing::Size(123, 22);
+			this->UpdateTask->Text = L"Редагувати завдання";
+			this->UpdateTask->Click += gcnew System::EventHandler(this, &MyForm::UpdateTaskClick);
 			// 
 			// ShowIntineTask
 			// 
@@ -350,6 +362,7 @@ namespace Kursach {
 			this->Controls->Add(this->Deadline2);
 			this->Controls->Add(this->NameList);
 			this->Controls->Add(this->ToolPanel);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximumSize = System::Drawing::Size(823, 450);
 			this->MinimumSize = System::Drawing::Size(823, 450);
 			this->Name = L"MyForm";
@@ -381,7 +394,7 @@ namespace Kursach {
 	}
 
 private: System::Void NewTask(System::Object^  sender, System::EventArgs^  e) {
-	Kursach::AddingNewTask form1;
+	TaskManager::AddingNewTask form1;
 	form1.ShowDialog();
 	extern My_List list;
 	if (sort == 0)
@@ -536,6 +549,16 @@ private: System::Void DeleteTaskClick(System::Object^  sender, System::EventArgs
 			list.showOuttime(NameList);
 		else
 			list.show(NameList);
+		hide();
+	}
+}
+private: System::Void UpdateTaskClick(System::Object^  sender, System::EventArgs^  e) {
+	if (NameList->Rows[0]->Cells[0]->Value == "")
+		return;
+	if (WantDelete())
+	{
+		TaskManager::UpdatingTask form1;
+		form1.ShowDialog();
 		hide();
 	}
 }

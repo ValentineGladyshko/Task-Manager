@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Kursach {
+namespace TaskManager {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -97,7 +97,7 @@ namespace Kursach {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
-			//this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximumSize = System::Drawing::Size(425, 147);
 			this->MinimumSize = System::Drawing::Size(425, 147);
 			this->Name = L"Deletef";

@@ -10,6 +10,6 @@ void main(){
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	Kursach::MyForm form; 
+	TaskManager::MyForm form;
 	Application::Run(%form);
 }

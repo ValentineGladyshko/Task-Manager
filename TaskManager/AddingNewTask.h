@@ -4,7 +4,7 @@
 
 using std::string;
 
-namespace Kursach {
+namespace TaskManager {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -147,14 +147,14 @@ namespace Kursach {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(564, 371);
+			this->Controls->Add(this->Text2);
 			this->Controls->Add(this->Adding);
 			this->Controls->Add(this->Text1);
 			this->Controls->Add(this->Deadline1);
 			this->Controls->Add(this->Name1);
-			this->Controls->Add(this->Text2);
 			this->Controls->Add(this->Name2);
 			this->Controls->Add(this->Deadline2);
-			//this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximumSize = System::Drawing::Size(580, 410);
 			this->MinimumSize = System::Drawing::Size(580, 410);
 			this->Name = L"AddingNewTask";

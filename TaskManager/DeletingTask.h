@@ -2,7 +2,7 @@
 #include "My_List.h"
 #include "Deletef.h"
 
-namespace Kursach {
+namespace TaskManager {
 
 	using namespace System;
 	using namespace System::ComponentModel;
