@@ -21,6 +21,47 @@ void My_List::add_obj(CObj obj)
 		table_outtime.push_back(obj);
 }
 
+void My_List::update_obj(string name, string text, STime deadline, int pos, int table)
+{
+	int pos1 = pos;
+	if (table == 1)
+		pos1 += table_intime.size();
+
+	if (pos1 + 1 > table_intime.size())
+	{
+		pos1 -= table_intime.size();
+		if (!table_outtime.empty())
+		{
+			auto iter = table_outtime.begin();
+			for (int i = 0; i < pos1; i++)
+			{
+				if (i <= pos1 - 1)
+					iter++;
+			}
+			iter->set_name(name);
+			iter->set_text(text);
+			iter->set_deadline(deadline);
+			iter->check_status();
+		}
+	}
+	else
+	{
+		if (!table_intime.empty())
+		{
+			auto iter = table_intime.begin();
+			for (int i = 0; i < pos1; i++)
+			{
+				if (i <= pos1 - 1)
+					iter++;
+			}
+			iter->set_name(name);
+			iter->set_text(text);
+			iter->set_deadline(deadline);
+			iter->check_status();
+		}
+	}
+}
+
 void My_List::show(DataGridView^ Table_intime)
 {
 	Table_intime->RowCount = 1;
@@ -143,6 +184,36 @@ void My_List::showOne(RichTextBox ^ t1, RichTextBox ^ t2, RichTextBox ^ t3, Rich
 			t2->Text = Convert::ToString(table_intime[pos1].get_start());
 			t3->Text = Convert::ToString(table_intime[pos1].get_deadline());
 			t4->Text = gcnew String(table_intime[pos1].get_text().c_str());
+		}
+
+	}
+}
+
+void My_List::showOne(RichTextBox ^ t1, RichTextBox ^ t2, DateTimePicker ^ d, int pos, int table)
+{
+	int pos1 = pos;
+	if (table == 1)
+		pos1 += table_intime.size();
+
+	if (pos1 + 1 > table_intime.size())
+	{
+		pos1 -= table_intime.size();
+		if (!table_outtime.empty())
+		{
+			t1->Text = gcnew String(table_outtime[pos1].get_name().c_str());
+			t2->Text = gcnew String(table_outtime[pos1].get_text().c_str());
+			d->Value = table_outtime[pos1].get_deadline();
+			d->MinDate = table_outtime[pos1].get_start();
+		}
+	}
+	else
+	{
+		if (!table_intime.empty())
+		{
+			t1->Text = gcnew String(table_intime[pos1].get_name().c_str());
+			t2->Text = gcnew String(table_intime[pos1].get_text().c_str());
+			d->Value = table_intime[pos1].get_deadline();
+			d->MinDate = table_intime[pos1].get_start();
 		}
 
 	}
@@ -288,6 +359,17 @@ void My_List::DeleteObj(int pos, int table)
 	}
 }
 
+void My_List::CheckStatus()
+{
+	if (!table_intime.empty())
+		for (int i = 0; i < table_intime.size(); i++)
+			table_intime[i].check_status();
+
+	if (!table_outtime.empty())
+		for (int i = 0; i < table_outtime.size(); i++)
+			table_outtime[i].check_status();
+}
+
 void My_List::read_from_file()
 {
 	FILE *f1 = fopen("database.dat", "a+b, ccs=UTF-8");
@@ -310,6 +392,7 @@ void My_List::write_to_file()
 	{
 		for (int i = 0;i < table_intime.size();i++)
 		{
+			table_intime[i].check_status();
 			MyString temp1(table_intime[i]);
 			fwrite(&temp1, sizeof(MyString), 1, f);
 		}
@@ -317,9 +400,9 @@ void My_List::write_to_file()
 
 	if (!table_outtime.empty())
 	{
-		auto iter = table_outtime.begin();
 		for (int i = 0;i < table_outtime.size();i++)
 		{
+			table_outtime[i].check_status();
 			MyString temp2(table_outtime[i]);
 			fwrite(&temp2, sizeof(MyString), 1, f);
 		}

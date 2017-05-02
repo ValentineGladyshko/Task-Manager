@@ -19,9 +19,13 @@ namespace TaskManager {
 	public ref class UpdatingTask : public System::Windows::Forms::Form
 	{
 	public:
-		UpdatingTask(void)
+		int num;
+		int table;
+		UpdatingTask(int n, int t)
 		{
 			InitializeComponent();
+			num = n;
+			table = t;
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -50,7 +54,8 @@ namespace TaskManager {
 	private: System::Windows::Forms::Label^  Name1;
 	private: System::Windows::Forms::Label^  Deadline1;
 	private: System::Windows::Forms::Label^  Text1;
-	private: System::Windows::Forms::Button^  Adding;
+	private: System::Windows::Forms::Button^  Updating;
+
 
 	private:
 		/// <summary>
@@ -72,7 +77,7 @@ namespace TaskManager {
 			this->Name1 = (gcnew System::Windows::Forms::Label());
 			this->Deadline1 = (gcnew System::Windows::Forms::Label());
 			this->Text1 = (gcnew System::Windows::Forms::Label());
-			this->Adding = (gcnew System::Windows::Forms::Button());
+			this->Updating = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// Deadline2
@@ -132,15 +137,15 @@ namespace TaskManager {
 			this->Text1->TabIndex = 7;
 			this->Text1->Text = L"Опис";
 			// 
-			// Adding
+			// Updating
 			// 
-			this->Adding->Location = System::Drawing::Point(425, 318);
-			this->Adding->Name = L"Adding";
-			this->Adding->Size = System::Drawing::Size(124, 36);
-			this->Adding->TabIndex = 8;
-			this->Adding->Text = L"Добавити";
-			this->Adding->UseVisualStyleBackColor = true;
-			this->Adding->Click += gcnew System::EventHandler(this, &UpdatingTask::Add);
+			this->Updating->Location = System::Drawing::Point(425, 318);
+			this->Updating->Name = L"Updating";
+			this->Updating->Size = System::Drawing::Size(124, 36);
+			this->Updating->TabIndex = 8;
+			this->Updating->Text = L"Змінити";
+			this->Updating->UseVisualStyleBackColor = true;
+			this->Updating->Click += gcnew System::EventHandler(this, &UpdatingTask::Update);
 			// 
 			// UpdatingTask
 			// 
@@ -148,7 +153,7 @@ namespace TaskManager {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(564, 371);
 			this->Controls->Add(this->Text2);
-			this->Controls->Add(this->Adding);
+			this->Controls->Add(this->Updating);
 			this->Controls->Add(this->Text1);
 			this->Controls->Add(this->Deadline1);
 			this->Controls->Add(this->Name1);
@@ -158,36 +163,43 @@ namespace TaskManager {
 			this->MaximumSize = System::Drawing::Size(580, 410);
 			this->MinimumSize = System::Drawing::Size(580, 410);
 			this->Name = L"UpdatingTask";
-			this->Text = L"NewTask";
+			this->Text = L"UpdateTask";
 			this->Load += gcnew System::EventHandler(this, &UpdatingTask::SLoad);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+		bool WantUpdate();
 		char* MarshalString(String ^ s) {
 			using namespace Runtime::InteropServices;
 			char* chars =
 				(char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
 			return chars;
 		}
-	private: System::Void Add(System::Object^  sender, System::EventArgs^  e) {
-		if (Name2->Text != ""&&Text2->Text != "")
-		{
-			extern My_List list;
-			string name = MarshalString(Name2->Text);
-			string text = MarshalString(Text2->Text);
-			STime deadline;
-			deadline.Set(Deadline2->Value);
-			list.add_obj(CObj(name, text, deadline, '0'));
-			list.write_to_file();
-			Close();
-		}
-	}
+	
 	private: System::Void SLoad(System::Object^  sender, System::EventArgs^  e) {
-		DateTime cur_time = DateTime::Now;
-		Deadline2->MinDate = cur_time.AddHours(1);
+		extern My_List list;
+		list.CheckStatus();
+		list.showOne(Name2, Text2, Deadline2, num, table);
 	}
 
-	};
+	private: System::Void Update(System::Object^  sender, System::EventArgs^  e) {
+		if (Name2->Text != ""&&Text2->Text != "")
+		{
+			if (WantUpdate())
+			{
+				extern My_List list;
+				list.CheckStatus();
+				string name = MarshalString(Name2->Text);
+				string text = MarshalString(Text2->Text);
+				STime deadline;
+				deadline.Set(Deadline2->Value);
+				list.update_obj(name, text, deadline, num, table);
+				list.write_to_file();
+				Close();
+			}
+		}
+	}
+};
 }

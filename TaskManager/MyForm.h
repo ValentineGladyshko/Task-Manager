@@ -385,6 +385,7 @@ namespace TaskManager {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		extern My_List list;
 		list.read_from_file();
+		list.CheckStatus();
 		table = 0;
 		sort = 0;
 		list.SortByDate();
@@ -397,9 +398,10 @@ private: System::Void NewTask(System::Object^  sender, System::EventArgs^  e) {
 	TaskManager::AddingNewTask form1;
 	form1.ShowDialog();
 	extern My_List list;
+	list.CheckStatus();
 	if (sort == 0)
 		list.SortByDate();
-	else if (table == 1)
+	else if (sort == 1)
 		list.SortByDeadline();
 	else
 		list.SortByName();
@@ -419,6 +421,7 @@ private: System::Void NewTask(System::Object^  sender, System::EventArgs^  e) {
 
 private: System::Void Showing(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	int t = Convert::ToInt32(NameList->CurrentRow->Index);
 	hide();
 	if ((table == 0) && (!list.IsIntimeEmpty()))
@@ -440,6 +443,7 @@ private: System::Void Showing(System::Object^  sender, System::Windows::Forms::D
 
 private: System::Void ShowingIntime(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	table = 0;
 	list.showIntime(NameList);
 	hide();
@@ -447,6 +451,7 @@ private: System::Void ShowingIntime(System::Object^  sender, System::EventArgs^ 
 
 private: System::Void ShowingOuttime(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	table = 1;
 	list.showOuttime(NameList);
 	hide();
@@ -454,6 +459,7 @@ private: System::Void ShowingOuttime(System::Object^  sender, System::EventArgs^
 
 private: System::Void ShowingAll(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	table = 2;
 	list.show(NameList);
 	hide();
@@ -461,6 +467,7 @@ private: System::Void ShowingAll(System::Object^  sender, System::EventArgs^  e)
 
 private: System::Void ChangeStatus(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	int t = Convert::ToInt32(NameList->CurrentRow->Index);
 	list.ChangeObjStatus(t, table, Status2);
 	Status2->Enabled = false;
@@ -483,6 +490,7 @@ private: System::Void ChangeStatus(System::Object^  sender, System::EventArgs^  
 
 private: System::Void SortingByName(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	sort = 0;
 	list.SortByName();
 	list.write_to_file();
@@ -497,6 +505,7 @@ private: System::Void SortingByName(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void SortingByTime(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	sort = 1;
 	list.SortByDate();
 	list.write_to_file();
@@ -511,6 +520,7 @@ private: System::Void SortingByTime(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void SortingByDeadline(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
+	list.CheckStatus();
 	sort = 2;
 	list.SortByDeadline();
 	list.write_to_file();
@@ -532,11 +542,12 @@ private: System::Void DeleteTaskClick(System::Object^  sender, System::EventArgs
 	if (WantDelete())
 	{
 		extern My_List list;
+		list.CheckStatus();
 		int t = Convert::ToInt32(NameList->CurrentRow->Index);
 		list.DeleteObj(t, table);		
 		if (sort == 0)
 			list.SortByDate();
-		else if (table == 1)
+		else if (sort == 1)
 			list.SortByDeadline();
 		else
 			list.SortByName();
@@ -555,12 +566,27 @@ private: System::Void DeleteTaskClick(System::Object^  sender, System::EventArgs
 private: System::Void UpdateTaskClick(System::Object^  sender, System::EventArgs^  e) {
 	if (NameList->Rows[0]->Cells[0]->Value == "")
 		return;
-	if (WantDelete())
-	{
-		TaskManager::UpdatingTask form1;
-		form1.ShowDialog();
-		hide();
-	}
+	int t = Convert::ToInt32(NameList->CurrentRow->Index);
+	TaskManager::UpdatingTask form1(t, table);
+	form1.ShowDialog();
+	extern My_List list;
+	list.CheckStatus();
+	if (sort == 0)
+		list.SortByDate();
+	else if (sort == 1)
+		list.SortByDeadline();
+	else
+		list.SortByName();
+
+	list.write_to_file();
+
+	if (table == 0)
+		list.showIntime(NameList);
+	else if (table == 1)
+		list.showOuttime(NameList);
+	else
+		list.show(NameList);
+	hide();
 }
 };
 }

@@ -29,17 +29,20 @@ class My_List
 public:
 	My_List();
 	void add_obj(CObj);    //функція добавки нового завдання
+	void update_obj(string, string, STime, int, int);
 	void show(DataGridView^);//виведення списку імен
 	void showIntime(DataGridView^);
 	void showOuttime(DataGridView^);
 	bool IsIntimeEmpty();
 	bool IsOuttimeEmpty();
 	void showOne(RichTextBox^, RichTextBox^, RichTextBox^, RichTextBox^, Button^, int, int);//виведення одного елементу
+	void showOne(RichTextBox^, RichTextBox^, DateTimePicker^, int, int);
 	void ChangeObjStatus(int, int, Button^);//переміщення елементу з активних в пасивні
 	void SortByName();
 	void SortByDate();
 	void SortByDeadline();
 	void DeleteObj(int, int);
+	void CheckStatus();
 	void read_from_file(); //читання з файлу
 	void write_to_file();  //запис в файл
 	~My_List();

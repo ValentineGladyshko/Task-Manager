@@ -31,6 +31,9 @@
     <ClCompile Include="UpdatingTask.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="Updatef.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Deletef.h">
@@ -64,11 +67,15 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="UpdatingTask.h" />
+    <ClInclude Include="Updatef.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx" />
     <EmbeddedResource Include="AddingNewTask.resx" />
     <EmbeddedResource Include="UpdatingTask.resx" />
+    <EmbeddedResource Include="Deletef.resx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Файлы исходного кода">

@@ -5,9 +5,8 @@ using namespace std;
 CObj::CObj()
 {
 }
-/******************************************
-*			êîíñòðóêòîð					  *
-******************************************/
+
+
 CObj::CObj(const CObj & obj)
 {
 	name = obj.name;
@@ -26,15 +25,13 @@ CObj::CObj(string name1, string text1, STime dline1, char stat)
 	check_status();
 }
 
-/******************************************
-*		âèçíà÷åííÿ äàòè ïî÷àòêó			  *
-******************************************/
+
 void CObj::set_start()
 {
 	time_t rawtime; 
 	struct tm * ptm;
-	time(&rawtime);// äàòà ïî÷àòêó â ñåêóíäàõ
-	ptm = localtime(&rawtime);// äàòà ³ ÷àñ â ôîðìàò³ GMT
+	time(&rawtime);
+	ptm = localtime(&rawtime);
 	
 	start.year = (ptm->tm_year + 1900);
 
@@ -86,8 +83,8 @@ void CObj::check_status()
 	STime curr_time;
 	time_t rawtime;
 	struct tm * ptm;
-	time(&rawtime);// äàòà ïî÷àòêó â ñåêóíäàõ
-	ptm = localtime(&rawtime);// äàòà ³ ÷àñ â ôîðìàò³ GMT
+	time(&rawtime);
+	ptm = localtime(&rawtime);
 
 	curr_time.year = (ptm->tm_year + 1900);
 

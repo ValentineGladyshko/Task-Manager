@@ -175,6 +175,7 @@ namespace TaskManager {
 		if (Name2->Text != ""&&Text2->Text != "")
 		{
 			extern My_List list;
+			list.CheckStatus();
 			string name = MarshalString(Name2->Text);
 			string text = MarshalString(Text2->Text);
 			STime deadline;

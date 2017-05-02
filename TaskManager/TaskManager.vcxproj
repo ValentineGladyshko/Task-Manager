@@ -140,6 +140,9 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Updatef.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="UpdatingTask.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -159,6 +162,7 @@
     <ClCompile Include="My_List.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Updatef.cpp" />
     <ClCompile Include="UpdatingTask.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Updatef.resx">
+      <DependentUpon>Updatef.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdatingTask.resx">
       <DependentUpon>UpdatingTask.h</DependentUpon>
