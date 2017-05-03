@@ -74,6 +74,8 @@ namespace TaskManager {
 
 
 
+
+
 	private: System::ComponentModel::IContainer^  components;
 
 
@@ -188,8 +190,8 @@ namespace TaskManager {
 			// 
 			this->Sorting->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->Sorting->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
-				this->SortByName,
-					this->SortByTime, this->SortByDeadline
+				this->SortByTime,
+					this->SortByName, this->SortByDeadline
 			});
 			this->Sorting->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->Sorting->Name = L"Sorting";
@@ -402,9 +404,9 @@ private: System::Void NewTask(System::Object^  sender, System::EventArgs^  e) {
 	if (sort == 0)
 		list.SortByDate();
 	else if (sort == 1)
-		list.SortByDeadline();
-	else
 		list.SortByName();
+	else
+		list.SortByDeadline();
 
 	list.write_to_file();
 
@@ -434,7 +436,7 @@ private: System::Void Showing(System::Object^  sender, System::Windows::Forms::D
 		visible();
 		list.showOne(Name2, Date2, Deadline2, Text2, Status2, t, table);
 	}
-	if ((table == 2) && (!list.IsOuttimeEmpty() || (!list.IsOuttimeEmpty())))
+	if ((table == 2) && (!list.IsOuttimeEmpty() || (!list.IsIntimeEmpty())))
 	{
 		visible();
 		list.showOne(Name2, Date2, Deadline2, Text2, Status2, t, table);
@@ -474,9 +476,9 @@ private: System::Void ChangeStatus(System::Object^  sender, System::EventArgs^  
 	if (sort == 0)
 		list.SortByDate();
 	else if (sort == 1)
-		list.SortByDeadline();
-	else
 		list.SortByName();
+	else
+		list.SortByDeadline();
 	list.write_to_file();
 
 	if (table == 0)
@@ -488,25 +490,10 @@ private: System::Void ChangeStatus(System::Object^  sender, System::EventArgs^  
 	visible();
 }
 
-private: System::Void SortingByName(System::Object^  sender, System::EventArgs^  e) {
-	extern My_List list;
-	list.CheckStatus();
-	sort = 0;
-	list.SortByName();
-	list.write_to_file();
-
-	if (table == 0)
-		list.showIntime(NameList);
-	else if (table == 1)
-		list.showOuttime(NameList);
-	else
-		list.show(NameList);
-	hide();
-}
 private: System::Void SortingByTime(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
 	list.CheckStatus();
-	sort = 1;
+	sort = 0;
 	list.SortByDate();
 	list.write_to_file();
 
@@ -518,6 +505,23 @@ private: System::Void SortingByTime(System::Object^  sender, System::EventArgs^ 
 		list.show(NameList);
 	hide();
 }
+
+private: System::Void SortingByName(System::Object^  sender, System::EventArgs^  e) {
+	extern My_List list;
+	list.CheckStatus();
+	sort = 1;
+	list.SortByName();
+	list.write_to_file();
+
+	if (table == 0)
+		list.showIntime(NameList);
+	else if (table == 1)
+		list.showOuttime(NameList);
+	else
+		list.show(NameList);
+	hide();
+}
+
 private: System::Void SortingByDeadline(System::Object^  sender, System::EventArgs^  e) {
 	extern My_List list;
 	list.CheckStatus();
@@ -548,9 +552,9 @@ private: System::Void DeleteTaskClick(System::Object^  sender, System::EventArgs
 		if (sort == 0)
 			list.SortByDate();
 		else if (sort == 1)
-			list.SortByDeadline();
-		else
 			list.SortByName();
+		else
+			list.SortByDeadline();
 
 		list.write_to_file();
 
@@ -574,9 +578,9 @@ private: System::Void UpdateTaskClick(System::Object^  sender, System::EventArgs
 	if (sort == 0)
 		list.SortByDate();
 	else if (sort == 1)
-		list.SortByDeadline();
-	else
 		list.SortByName();
+	else
+		list.SortByDeadline();
 
 	list.write_to_file();
 

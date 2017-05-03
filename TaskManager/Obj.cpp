@@ -28,11 +28,11 @@ CObj::CObj(string name1, string text1, STime dline1, char stat)
 
 void CObj::set_start()
 {
-	time_t rawtime; 
+	time_t rawtime;
 	struct tm * ptm;
 	time(&rawtime);
 	ptm = localtime(&rawtime);
-	
+
 	start.year = (ptm->tm_year + 1900);
 
 	start.month = (ptm->tm_mon + 1);
@@ -67,10 +67,10 @@ DateTime CObj::get_deadline()
 ******************************************/
 bool CObj::operator<(const CObj & obj) const
 {
-	if (obj.start < this->start)
+	if (this->start < obj.start)
 		return true;
 	else if (this->start == obj.start)
-		if (obj.deadline < this->deadline)
+		if (this->deadline < obj.deadline)
 			return true;
 		else if (this->deadline == obj.deadline)
 			if (this->name < obj.name)
@@ -93,10 +93,34 @@ void CObj::check_status()
 	curr_time.day = (ptm->tm_mday);
 	curr_time.hour = (ptm->tm_hour) % 24;
 	curr_time.minutes = (ptm->tm_min);
+	curr_time.seconds = (ptm->tm_sec);
 	if ((deadline < curr_time) && this->status == '0')
 	{
 		this->status = '1';
 	}
+}
+
+bool CObj::status_need_modify()
+{
+	STime curr_time;
+	time_t rawtime;
+	struct tm * ptm;
+	time(&rawtime);
+	ptm = localtime(&rawtime);
+
+	curr_time.year = (ptm->tm_year + 1900);
+
+	curr_time.month = (ptm->tm_mon + 1);
+
+	curr_time.day = (ptm->tm_mday);
+	curr_time.hour = (ptm->tm_hour) % 24;
+	curr_time.minutes = (ptm->tm_min);
+	curr_time.seconds = (ptm->tm_sec);
+	if ((deadline < curr_time) && this->status == '0')
+	{
+		return true;
+	}
+	return false;
 }
 
 void CObj::Copy(const CObj & obj)

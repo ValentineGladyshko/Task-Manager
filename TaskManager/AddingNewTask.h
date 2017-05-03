@@ -186,7 +186,7 @@ namespace TaskManager {
 		}
 	}
 	private: System::Void SLoad(System::Object^  sender, System::EventArgs^  e) {
-		DateTime cur_time= DateTime::Now;
+		DateTime cur_time = DateTime::Now;
 		Deadline2->MinDate = cur_time.AddHours(1);
 	}
 

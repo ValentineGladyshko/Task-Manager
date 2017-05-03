@@ -41,7 +41,6 @@ void My_List::update_obj(string name, string text, STime deadline, int pos, int 
 			iter->set_name(name);
 			iter->set_text(text);
 			iter->set_deadline(deadline);
-			iter->check_status();
 		}
 	}
 	else
@@ -57,7 +56,6 @@ void My_List::update_obj(string name, string text, STime deadline, int pos, int 
 			iter->set_name(name);
 			iter->set_text(text);
 			iter->set_deadline(deadline);
-			iter->check_status();
 		}
 	}
 }
@@ -362,12 +360,21 @@ void My_List::DeleteObj(int pos, int table)
 void My_List::CheckStatus()
 {
 	if (!table_intime.empty())
+	{
+		auto iter = table_intime.begin();
 		for (int i = 0; i < table_intime.size(); i++)
-			table_intime[i].check_status();
-
-	if (!table_outtime.empty())
-		for (int i = 0; i < table_outtime.size(); i++)
-			table_outtime[i].check_status();
+		{
+			if (iter->status_need_modify())
+			{
+				CObj temp = *iter;
+				temp.set_status('1');
+				add_obj(temp);
+				table_intime.erase(iter);
+			}
+			else
+				iter++;
+		}
+	}
 }
 
 void My_List::read_from_file()
